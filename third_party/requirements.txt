@@ -1,2 +1,0 @@
-# list externals dependencies available for every python packages
-pytest

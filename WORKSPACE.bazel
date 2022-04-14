@@ -1,41 +1,5 @@
 workspace(name = "acme_corp")
 
-load("//internal:python_interpreter.bzl", "py_download")
-
-py_download(
-    name = "py_darwin_x86_64",
-    arch = "x86_64",
-    os = "darwin",
-    sha256 = "94a02e96a7e7ada58aa53698cd5762c1c4ff4de6f210ca270faf2ae84994256e",
-    urls = ["https://github.com/indygreg/python-build-standalone/releases/download/20200530/cpython-3.7.7-x86_64-apple-darwin-pgo-20200530T1845.tar.zst"],
-)
-
-py_download(
-    name = "py_linux_x86_64",
-    arch = "x86_64",
-    os = "linux",
-    sha256 = "c6d6256d13e929e77e7ee6e53470fe63ad19d173fee6d56bb1b2db",
-    urls = ["https://github.com/indygreg/python-build-standalone/releases/download/20200822/cpython-3.7.9-x86_64-unknown-linux-gnu-pgo-20200823T0036.tar.zst"],
-)
-
-py_download(
-    name = "py_windows_x86_64",
-    arch = "x86_64",
-    os = "windows",
-    interpreter_path = "python.exe",
-    # sha256 = "e405417f50984bc5870c7e7a9f9aeb93e9d270f5ac67f667a0cd3a09439682b5",
-    # urls = ["https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz"],
-    sha256 = "f1bb5edaad60d2ea1f233ff20cce237cc2d129b736dcf63f8423a15061294092",
-    urls = ["https://github.com/indygreg/python-build-standalone/releases/download/20220318/cpython-3.8.13+20220318-x86_64-pc-windows-msvc-shared-install_only.tar.gz"],
-)
-
-# The //:toolchain target points to the toolchain target we wrote in the BUILD file template.
-register_toolchains(
-    # "@py_darwin_x86_64//:toolchain",
-    # "@py_linux_x86_64//:toolchain",
-    "@py_windows_x86_64//:toolchain",
-)
-
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 
@@ -47,32 +11,3 @@ http_archive(
     strip_prefix = "rules_python-{}".format(rules_python_version),
     url = "https://github.com/bazelbuild/rules_python/archive/{}.zip".format(rules_python_version),
 )
-
-
-load("@rules_python//python:pip.bzl", "pip_install")
-
-pip_install(
-    name = "my_python_deps",
-    requirements = "//third_party:requirements.txt",
-)
-
-http_archive(
-    name = "rules_python_pytest",
-    sha256 = "62c3b72e997743d1b3934348cadad7a0906efaa5139b24c39efa189fd3e2142d",
-    strip_prefix = "rules_python_pytest-1.0.1",
-    url = "https://github.com/caseyduquettesc/rules_python_pytest/archive/v1.0.1.tar.gz",
-)
-
-# Fetches the rules_python_pytest dependencies.
-# If you want to have a different version of some dependency,
-# you should fetch it *before* calling this.
-# Alternatively, you can skip calling this function, so long as you've
-# already fetched all the dependencies.
-load("@rules_python_pytest//python_pytest:repositories.bzl", "rules_python_pytest_dependencies")
-rules_python_pytest_dependencies()
-
-
-# load("@rules_python//python:pip.bzl", "pip_repositories")
-
-# pip_repositories()
-
