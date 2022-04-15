@@ -105,3 +105,10 @@ app1_func2!
 lib1_func1!
 lib1_func3!
 ```
+
+
+# Workaround
+
+If anyone else runs into this problem, the problem can be avoided by ensuring that the workspace name is not shared by any python packages in the repo. In this particular case, the workspace is called `acme_corp`, and the namespace for the python packages had the same name. The extra `__init__.py` file created in Windows at the top of the generated directory structure caused python to think the top level `acme_corp/` directory was the acme_corp package, which prevented the actual acme_corp content from being loaded as a namespace package. I renamed the workspace to `acme_corp_workspace`, and was able to build again on Windows.
+
+Even though I can work around the issue for now, I still think that the creation of that extra `__init__.py` file is probably a mistake by Bazel and should not be generated as part of the build process in the first place.
