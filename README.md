@@ -1,6 +1,8 @@
 # Bazel Python Namespace Bug
 
-This project is attempting to use a python namespace package `acme_corp`.
+This repo is documentation to explain this Bazel issue: https://github.com/bazelbuild/bazel/issues/15263
+
+This project was started as an attempt to use a python namespace package `acme_corp` in a monorepo managed by Bazel.
 
 Here is the directory structure:
 ```
